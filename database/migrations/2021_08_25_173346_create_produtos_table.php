@@ -6,16 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProdutosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('quantidade');
+            $table->integer('valor');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

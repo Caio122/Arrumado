@@ -12,10 +12,10 @@ class Produtos extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()//Listar todos os itens
+    public function index()
     {
-        $produtos = Produto::all();
-
+        $produto = Produto::where('status', '=', true)->get();
+        return view('produtos.index', compact(['produto']));
     }
 
     /**
@@ -23,22 +23,26 @@ class Produtos extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()//Criar um formulario para novo item
+    public function create()
     {
-        return view('produtos.create');
+        $produto = Produto::all();
+        return view('produtos.create', compact('produto'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)//Salvar um novo item
+    public function store(Request $request)
     {
-
-
-        Produto::create();
-        return redirect()->route('produtos.index');
+        $produto = new Produto();
+        $produto->nome = $request->input('nome');
+        $produto->quantidade = $request->input('quantidade');
+        $produto->valor = $request->input('valor');
+        $produto->save();
+        return redirect()->route('produtos.index', compact('produto'));
     }
 
     /**
@@ -47,10 +51,10 @@ class Produtos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)//Mostar um item especifico
+    public function show($id)
     {
-        $produtos = Produto::find($id);
-        return view('produtos.show', compact(['produtos']));
+        $produto = Produto::where('id', $id)->first();
+        return view('produtos.show', compact(['produto']));
     }
 
     /**
@@ -59,10 +63,13 @@ class Produtos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//Criar um formulario de edição
+    public function edit($id)
     {
-        $produtos = Produto::find($id);
-        return view('produtos.edit', compact(['produtos']));
+        $produto = Produto::find($id);
+        if (isset($produto)) {
+            return view('produtos.edit', compact('produto'));
+        }
+        return view('produtos.index');
     }
 
     /**
@@ -74,8 +81,14 @@ class Produtos extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        return redirect()->route('produtos.index');
+        $produto = Produto::find($id);
+        if (isset($produto)) {
+            $produto->nome = $request->input('nome');
+            $produto->quantidade = $request->input('quantidade');
+            $produto->valor = $request->input('valor');
+            $produto->save();
+        }
+        return redirect()->route('produtos.index', compact('produto'));
     }
 
     /**
@@ -84,8 +97,17 @@ class Produtos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    
+    public function destroy(Request $request, $id) {
+        $produto = Produto::find($id);
+        if (isset($produto)) {
+            $produto->status = false;
+            $produto->save();
+        }
+        return redirect()->route('produtos.index', compact('produto'));
     }
 }
+
+
+
+

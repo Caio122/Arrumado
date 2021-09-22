@@ -1,7 +1,11 @@
 <h3>Editar produto</h3>
 
-<form action="{{ route('produtos.update', $produtos['id'])}}" method="POST">
-    <input type="text" name="nome" value="{{ $produtos['nome'] }}">
+<form action="{{ route('produtos.update', $produto->id)}}" method="POST">
+    @csrf
+    @method('PUT')
+    <input type="text" name="nome" value="{{ $produto->nome }}">
+    <input type="number" name="quantidade" value="{{ $produto->quantidade }}">
+    <input type="number" name="valor" value="{{ $produto->valor }}">
     <input type="submit" value="Salvar">
 </form>
 

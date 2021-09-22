@@ -1,17 +1,24 @@
 <h3>Produtos</h3>
 <a href="{{ route('produtos.create') }}">Novo</a>
+<br><br>
+@if(count($produto)>0)
+    <table>
+    @foreach ($produto as $produtos)
+    <tr>
+        <th scope="row">{{ $produtos->id }}</th>
+        <td> {{ $produtos->nome }}</td>
+        <td> {{ $produtos->quantidade }}</td>
+        <td> {{ $produtos->valor }}</td>
+        <td>
+        {{ $produtos->id }} | {{ $produtos->nome }}
+        <a href="{{ route('produtos.show', $produtos->id) }}">Detalhes</a>
+        <a href="{{ route('produtos.edit', $produtos->id) }}">Alterar</a>
+        <a href="{{ route('produtos.delete', $produtos->id) }}">Deletar</a>
+        </td>
+    </tr>
 
-@if(count($produtos)>0)
-<ul>
-    @foreach ($produtos as $p)
-    <li>
-        {{ $p['id'] }} | {{ $p['nome'] }}
-        <a href="{{ route('produtos.show', $p['id']) }}">Detalhes</a>
-        <a href="{{ route('produtos.edit', $p['id']) }}">Alterar</a>
-    </li>
     @endforeach
-
-</ul>
+    </table>
 @else
     <h3>Não existem produtos cadastrados</h3>
 @endif

@@ -26,6 +26,15 @@ Route::prefix('/produtos')->group( function(){
 
     Route::get('/create', [Produtos::class, 'create'])->name('produtos.create');
 
+    Route::post('/create/store', [Produtos::class, 'store'])->name('produtos.store');
+
+    Route::get('/show/{id}', [Produtos::class, 'show'])->name('produtos.show');
+
+    Route::get('/edit/{id}', [Produtos::class, 'edit'])->name('produtos.edit');
+
+    Route::put('/edit/update/{id}', [Produtos::class, 'update'])->name('produtos.update');
+
+    Route::get('/destroy/{id}', [Produtos::class, 'destroy'])->name('produtos.delete');
 
 });
 
@@ -45,7 +54,7 @@ Route::prefix('/cliente')->group(function()
 
     Route::get('/show/{id}', [Clientes::class, 'show'])->name('clientes.show');
 
-    Route::delete('/destroy/{id}', [Clientes::class, 'destroy'])->name('clientes.destroy');
+    Route::get('/destroy/{id}', [Clientes::class, 'destroy'])->name('clientes.destroy');
 
 
 });//Agrupamento de rotas
